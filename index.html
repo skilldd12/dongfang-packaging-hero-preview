@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DONGFANG PACKAGING · Custom Flexible Packaging</title>
+  <title>DONGFANG PACKAGING · Dynamic Hero Preview</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-active-scheme="1">
 
-  <!-- Discreet Floating Scheme Dock (Bottom-Center, Zero Top Chrome Clutter) -->
+  <!-- Discreet Floating Scheme Dock (Hidden in ?embed=1) -->
   <aside class="scheme-dock" aria-label="Switch dynamic hero concept">
     <div class="dock-tabs" role="tablist" aria-label="Dynamic hero concepts">
-      <button class="dock-tab is-active" role="tab" aria-selected="true" data-scheme="1">01 影院推镜</button>
-      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="2">02 巨字光追</button>
-      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="3">03 留白视差</button>
-      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="4">04 五联艺廊</button>
-      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="5">05 拼版放大</button>
+      <button class="dock-tab is-active" role="tab" aria-selected="true" data-scheme="1">01 Erewhon 轮播</button>
+      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="2">02 Gander 巨字光追</button>
+      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="3">03 Studio Freight 矩阵</button>
+      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="4">04 Codrops 五联</button>
+      <button class="dock-tab" role="tab" aria-selected="false" data-scheme="5">05 拼版放大镜</button>
     </div>
     <div class="dock-divider" aria-hidden="true"></div>
     <div class="dock-tools">
-      <button class="dock-btn dock-btn--wp" id="btn-wp" type="button" title="View WordPress implementation guide">WP 落地方法</button>
+      <button class="dock-btn dock-btn--wp" id="btn-wp" type="button" title="WordPress 实现方案">WP 实现</button>
       <button class="dock-btn" id="btn-replay" type="button" title="Replay entrance">重播</button>
-      <button class="dock-btn" id="btn-motion" type="button" aria-pressed="false" title="Toggle prefers-reduced-motion">减弱动态</button>
       <button class="dock-btn" id="btn-mobile" type="button" aria-pressed="false" title="Preview 390px mobile">390px</button>
     </div>
   </aside>
@@ -29,27 +28,26 @@
   <!-- Optional 390px Device Preview Shell -->
   <div class="mobile-stage-wrap" aria-hidden="true">
     <div class="mobile-device">
-      <iframe id="mobile-frame" title="390px Mobile Responsive Preview"></iframe>
+      <iframe id="mobile-frame" title="390px Mobile Hero Preview"></iframe>
     </div>
   </div>
 
-  <!-- Main Webpage -->
+  <!-- Pure Hero-Only Viewport Shell (100vh) -->
   <div class="site-shell">
 
-    <!-- Unified Clean Single-Row Site Header (Adaptive Light / Transparent Overlay) -->
+    <!-- Unified Clean Single-Row Site Header (Adaptive per Scheme) -->
     <header class="site-header" id="site-header">
       <div class="header-inner">
+        <nav class="site-nav site-nav--left" aria-label="Primary navigation">
+          <button class="nav-link-btn" type="button" data-quote-trigger="Custom Packaging">Pouches</button>
+          <button class="nav-link-btn" type="button" data-quote-trigger="Barrier Films">Films</button>
+          <button class="nav-link-btn" type="button" data-quote-trigger="Factory Audit">Factory</button>
+        </nav>
+
         <a class="brand-lockup" href="#top">
           <img class="brand-seal" src="assets/seal-logo.png" alt="Dongfang seal" />
           <span class="brand-wordmark">DONGFANG</span>
         </a>
-
-        <nav class="site-nav" aria-label="Primary">
-          <a href="#products">Products</a>
-          <a href="#custom">Applications</a>
-          <a href="#sustainability">Sustainability</a>
-          <a href="#factory">Our Factory</a>
-        </nav>
 
         <div class="header-actions">
           <button class="hdr-quote-btn" type="button" data-quote-trigger="General Enquiry">Get a Quote</button>
@@ -62,75 +60,71 @@
       </div>
 
       <nav class="mobile-drawer" id="mobile-drawer" aria-label="Mobile navigation">
-        <a href="#products">Products</a>
-        <a href="#custom">Applications</a>
-        <a href="#sustainability">Sustainability</a>
-        <a href="#factory">Our Factory</a>
-        <button class="btn-pill" type="button" data-quote-trigger="General Enquiry">Get a Quote</button>
+        <button class="mobile-nav-item" type="button" data-quote-trigger="Custom Packaging">Pouches &amp; Bags</button>
+        <button class="mobile-nav-item" type="button" data-quote-trigger="Barrier Films">Rollstock Films</button>
+        <button class="mobile-nav-item" type="button" data-quote-trigger="Factory Audit">Zhongshan Factory</button>
+        <button class="btn-pill" type="button" data-quote-trigger="General Enquiry">Request Samples</button>
       </nav>
     </header>
 
-    <main id="top" class="site-surface">
+    <main id="top" class="hero-stage-root">
 
       <!-- ================================================================
-           SCHEME 01: Erewhon / Roastar Full-Bleed Cinema + GSAP 3-Act Scrub
+           SCHEME 01: Erewhon Inspired Minimalist Charcoal Bar + Silky Slider Hero
            ================================================================ -->
-      <section class="hero-scheme is-active" id="scheme-1" data-scheme-panel="1" aria-label="Scheme 01: Full-bleed cinema scrub">
-        <div class="s1-runway" id="s1-runway">
-          <div class="s1-stage" id="s1-stage">
-            <!-- Layer 1: Architectural Daylight Scene -->
-            <div class="s1-layer s1-layer--1" id="s1-l1">
-              <video class="s1-media" id="s1-video" autoplay muted loop playsinline poster="assets/hero-erewhon-scene.jpg">
-                <source src="media/hero-erewhon-theater.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <!-- Layer 2: Macro Barrier & Heat-Seal Reveal -->
-            <div class="s1-layer s1-layer--2" id="s1-l2">
-              <img class="s1-media" src="assets/hero-macro-laminate.jpg" alt="Macro matte laminate, tear notch and zipper rail" />
-            </div>
-            <!-- Layer 3: Pull-Tab Detail & Surface Print -->
-            <div class="s1-layer s1-layer--3" id="s1-l3">
-              <img class="s1-media" src="assets/detail-zip.png" alt="Close-up pull-tab zipper opening detail" />
-            </div>
-
-            <div class="s1-specular" id="s1-specular" aria-hidden="true"></div>
-            <div class="s1-scrim" aria-hidden="true"></div>
-
-            <div class="s1-overlay">
-              <div class="s1-copy" id="s1-copy-1">
-                <p class="hero-kicker hero-kicker--light">ZHONGSHAN · SINCE 2003</p>
-                <h1 class="s1-title">
-                  <span class="reveal-line"><span>Your product.</span></span>
-                  <span class="reveal-line"><span>Our packaging.</span></span>
-                </h1>
-                <p class="s1-sub">Custom flat-bottom, stand-up pouches &amp; barrier rollstock.</p>
-                <div class="s1-actions">
-                  <button class="btn-ivory s1-magnet" type="button" data-quote-trigger="Flat Bottom & Stand-Up Pouches">Request a Quote</button>
-                  <a class="link-clean link-clean--light" href="#products">Explore formats ↓</a>
-                </div>
+      <section class="hero-scheme is-active" id="scheme-1" data-scheme-panel="1" aria-label="Scheme 01: Erewhon inspired editorial carousel hero">
+        <div class="s1-stage" id="s1-stage">
+          <div class="s1-track" id="s1-track">
+            <article class="s1-slide is-active" data-s1-slide="0">
+              <div class="s1-slide-media">
+                <img src="assets/hero-erewhon-scene.jpg" alt="Custom coffee pouches on architectural sunlit limestone plinth" />
               </div>
-
-              <div class="s1-chapter s1-chapter--2" id="s1-copy-2" aria-hidden="true">
-                <p class="s1-chapter-kicker">02 · STRUCTURE &amp; BARRIER</p>
-                <h2>Precision heat-seals.<br />Engineered multi-layer film.</h2>
+              <div class="s1-slide-scrim" aria-hidden="true"></div>
+              <div class="s1-slide-center">
+                <p class="s1-kicker">ZHONGSHAN · CUSTOM FLEXIBLE PACKAGING</p>
+                <h1 class="s1-title">YOUR PRODUCT. OUR PACKAGING.</h1>
+                <button class="s1-frosted-cta" type="button" data-quote-trigger="Flat Bottom & Stand-Up Pouches">REQUEST A QUOTE &rsaquo;</button>
               </div>
+            </article>
 
-              <div class="s1-chapter s1-chapter--3" id="s1-copy-3" aria-hidden="true">
-                <p class="s1-chapter-kicker">03 · READY FOR FILLING</p>
-                <h2>Pull-tab zippers, valves<br />&amp; 10-colour printing.</h2>
+            <article class="s1-slide" data-s1-slide="1">
+              <div class="s1-slide-media">
+                <img src="assets/hero-macro-laminate.jpg" alt="Matte olive laminate pouch with precision heat-sealed zipper" />
               </div>
+              <div class="s1-slide-scrim" aria-hidden="true"></div>
+              <div class="s1-slide-center">
+                <p class="s1-kicker">MULTI-LAYER BARRIER &amp; PRECISION ZIPPER</p>
+                <h2 class="s1-title">BUILT FOR HIGH-BARRIER FRESHNESS.</h2>
+                <button class="s1-frosted-cta" type="button" data-quote-trigger="Barrier Laminate Samples">ORDER SAMPLES &rsaquo;</button>
+              </div>
+            </article>
 
-              <div class="s1-scroll-meta">
-                <span id="s1-progress-label">01 / DAYLIGHT SHELF</span>
-                <span class="s1-progress-line"><span id="s1-progress-bar"></span></span>
+            <article class="s1-slide" data-s1-slide="2">
+              <div class="s1-slide-media">
+                <img src="assets/detail-zip.png" alt="Close-up matte black pull-tab zipper pouch seam" />
               </div>
-            </div>
+              <div class="s1-slide-scrim" aria-hidden="true"></div>
+              <div class="s1-slide-center">
+                <p class="s1-kicker">10-COLOUR GRAVURE · 26 INSPECTION STAGES</p>
+                <h2 class="s1-title">CRAFTED FOR RETAIL PRESENCE.</h2>
+                <button class="s1-frosted-cta" type="button" data-quote-trigger="OEM Packaging Enquiry">START PROJECT &rsaquo;</button>
+              </div>
+            </article>
+          </div>
+
+          <button class="s1-nav-arrow s1-nav-arrow--prev" id="s1-prev" type="button" aria-label="Previous slide">&lsaquo;</button>
+          <button class="s1-nav-arrow s1-nav-arrow--next" id="s1-next" type="button" aria-label="Next slide">&rsaquo;</button>
+
+          <div class="s1-dots" role="tablist" aria-label="Hero slides">
+            <button class="s1-dot is-active" type="button" data-s1-dot="0" aria-label="Slide 1"></button>
+            <button class="s1-dot" type="button" data-s1-dot="1" aria-label="Slide 2"></button>
+            <button class="s1-dot" type="button" data-s1-dot="2" aria-label="Slide 3"></button>
           </div>
         </div>
       </section>
 
       <!-- ================================================================
-           SCHEME 02: Gander Monumental Typography + Pointer Gradient Sheen
+           SCHEME 02: Gander Monumental Wordmark + Pointer Gradient Sheen
            ================================================================ -->
       <section class="hero-scheme" id="scheme-2" data-scheme-panel="2" aria-label="Scheme 02: Gander monumental wordmark">
         <div class="s2-canvas" id="s2-canvas">
@@ -147,22 +141,16 @@
               <p class="s2-meta">Custom flat-bottom &amp; stand-up pouches · 8,000 m² facility in Zhongshan</p>
             </div>
 
-            <a class="s2-scroll-hint" href="#products" aria-label="Scroll to products">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 5v14M5 12l7 7 7-7" />
-              </svg>
-            </a>
-
             <div class="s2-bottom-right">
               <button class="btn-ivory" type="button" data-quote-trigger="Monumental Hero Enquiry">Get a Quote</button>
-              <a class="link-clean link-clean--light" href="#products">Collection</a>
+              <button class="link-clean link-clean--light" type="button" data-quote-trigger="Sample Kit">Sample Kit</button>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ================================================================
-           SCHEME 03: Studio Freight Pure White Space + Scattered Parallax Frames
+           SCHEME 03: Studio Freight Pure White Space + Depth Parallax Tiles
            ================================================================ -->
       <section class="hero-scheme" id="scheme-3" data-scheme-panel="3" aria-label="Scheme 03: Studio Freight open gallery">
         <div class="s3-gallery" id="s3-gallery">
@@ -175,37 +163,37 @@
             <p class="s3-center-sub">Flat-bottom, stand-up &amp; recyclable film routes printed in-house.</p>
             <div class="s3-center-actions">
               <button class="btn-navy" type="button" data-quote-trigger="Studio Gallery Enquiry">Get a Quote</button>
-              <a class="link-clean link-clean--dark" href="#products">View all formats ↗</a>
+              <button class="link-clean link-clean--dark" type="button" data-quote-trigger="Catalogue Spec">Request Catalogue &nearr;</button>
             </div>
           </div>
 
           <div class="s3-scatter" id="s3-scatter">
-            <figure class="s3-tile s3-tile--tl" data-speed="-0.16">
+            <figure class="s3-tile s3-tile--tl" data-depth="18">
               <img src="assets/hero-macro-laminate.jpg" alt="Matte laminate zipper seam macro" />
               <figcaption>01 · Seal &amp; Barrier Craft</figcaption>
             </figure>
 
-            <figure class="s3-tile s3-tile--tr" data-speed="0.18">
+            <figure class="s3-tile s3-tile--tr" data-depth="-22">
               <img src="assets/detail-zip.png" alt="Precision pull-tab zipper seal detail" />
               <figcaption>02 · Pull-Tab Zipper</figcaption>
             </figure>
 
-            <figure class="s3-tile s3-tile--ml" data-speed="0.11">
+            <figure class="s3-tile s3-tile--ml" data-depth="-14">
               <img src="assets/hero-erewhon-scene.jpg" alt="Coffee flat-bottom pouches on natural stone plinth" />
               <figcaption>03 · 8-Seal Box Pouch</figcaption>
             </figure>
 
-            <figure class="s3-tile s3-tile--mr" data-speed="-0.13">
+            <figure class="s3-tile s3-tile--mr" data-depth="16">
               <img src="assets/scene-tea.png" alt="Specialty tea retail pouch" />
               <figcaption>04 · Tea &amp; Botanicals</figcaption>
             </figure>
 
-            <figure class="s3-tile s3-tile--bl" data-speed="-0.09">
+            <figure class="s3-tile s3-tile--bl" data-depth="14">
               <img src="assets/scene-bakery.png" alt="Bakery kraft stand-up pouch" />
               <figcaption>05 · Bakery &amp; Food</figcaption>
             </figure>
 
-            <figure class="s3-tile s3-tile--br" data-speed="0.15">
+            <figure class="s3-tile s3-tile--br" data-depth="-16">
               <img src="assets/detail-print.png" alt="10-colour gravure laminated film" />
               <figcaption>06 · 10-Colour Gravure</figcaption>
             </figure>
@@ -223,7 +211,7 @@
               <img src="assets/detail-print.png" alt="10-colour rotogravure barrier laminate finish" />
               <span class="s4-panel-num">01</span>
             </button>
-            <button class="s4-panel" type="button" data-s4-idx="1" role="option" aria-selected="false">
+            <button class="s4-panel is-near" type="button" data-s4-idx="1" role="option" aria-selected="false">
               <img src="assets/detail-zip.png" alt="Pull-tab zipper closure detail" />
               <span class="s4-panel-num">02</span>
             </button>
@@ -231,7 +219,7 @@
               <img src="assets/hero-erewhon-scene.jpg" alt="Coffee pouches on architectural stone counter" />
               <span class="s4-panel-num">03</span>
             </button>
-            <button class="s4-panel" type="button" data-s4-idx="3" role="option" aria-selected="false">
+            <button class="s4-panel is-near" type="button" data-s4-idx="3" role="option" aria-selected="false">
               <img src="assets/hero-macro-laminate.jpg" alt="Matte olive laminate and foil seam" />
               <span class="s4-panel-num">04</span>
             </button>
@@ -250,7 +238,7 @@
               <p class="s4-caption" id="s4-chapter-desc">Eight-seal box pouches &amp; stand-up bags built for natural shelf presence.</p>
               <div class="s4-cta-wrap">
                 <button class="btn-ivory" id="s4-quote-trigger" type="button" data-quote-trigger="Flagship Coffee Series">Get a Quote</button>
-                <a class="link-clean link-clean--light" href="#products">Explore formats</a>
+                <button class="link-clean link-clean--light" type="button" data-quote-trigger="Sample Kit">Order Samples</button>
               </div>
             </div>
           </div>
@@ -289,7 +277,7 @@
             <h1 class="s5-headline" id="s5-headline">Crafted<br />for shelf.</h1>
             <p class="s5-copy" id="s5-copy">
               Custom flat-bottom pouches, zipper seals, and high-barrier films engineered across 26 inspection stages.
-              <button class="s5-inline-link" type="button" data-quote-trigger="Editorial Spread Enquiry">Request samples ↗</button>
+              <button class="s5-inline-link" type="button" data-quote-trigger="Editorial Spread Enquiry">Request samples &nearr;</button>
             </p>
           </div>
 
@@ -301,232 +289,11 @@
           </div>
 
           <div class="s5-arrows">
-            <button class="s5-arrow" id="s5-prev" type="button" aria-label="Previous layout">←</button>
-            <button class="s5-arrow" id="s5-next" type="button" aria-label="Next layout">→</button>
+            <button class="s5-arrow" id="s5-prev" type="button" aria-label="Previous layout">&larr;</button>
+            <button class="s5-arrow" id="s5-next" type="button" aria-label="Next layout">&rarr;</button>
           </div>
         </div>
       </section>
-
-      <!-- ===================================================
-           Below-the-Fold Homepage Sections (Continuous Client Continuity)
-           =================================================== -->
-      <section class="page-section container" id="products">
-        <div class="section-head">
-          <h2 class="section-title">Flat Bottom Pouches</h2>
-          <button class="link-underline" type="button" data-quote-trigger="Flat Bottom Pouches">Ask about samples</button>
-        </div>
-        <div class="grid-4">
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/flat-blue.png" alt="Pull-tab zipper pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Pull-tab zipper pouch</h3>
-                <p class="prod-cap">Pull-tab opening</p>
-              </figcaption>
-            </figure>
-          </article>
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/flat-pet.png" alt="Pet food pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Pet food pouch</h3>
-                <p class="prod-cap">Custom printed format</p>
-              </figcaption>
-            </figure>
-          </article>
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/flat-fresh.png" alt="Consumer goods pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Consumer goods pouch</h3>
-                <p class="prod-cap">Printed film packaging</p>
-              </figcaption>
-            </figure>
-          </article>
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/flat-floral.png" alt="Confectionery pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Confectionery pouch</h3>
-                <p class="prod-cap">Printed food packaging</p>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
-      </section>
-
-      <section class="page-section container" id="sustainability">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Sustainable Packaging</h2>
-            <p class="section-lead">Two distinct material routes for your next pack.</p>
-          </div>
-        </div>
-        <div class="grid-2">
-          <div>
-            <div class="eco-img-wrap"><img src="assets/material-recycle.png" alt="Recyclable film structure" loading="lazy" /></div>
-            <div class="eco-head">
-              <img src="svg/recycle.svg" width="26" height="26" alt="" />
-              <h3>Recyclable Packaging</h3>
-            </div>
-            <p class="eco-desc">Review film structure and local collection routes.</p>
-            <button class="link-underline" type="button" data-quote-trigger="Recyclable Packaging">Discuss materials</button>
-          </div>
-          <div>
-            <div class="eco-img-wrap"><img src="assets/material-biodegrade.png" alt="Biodegradable material structure" loading="lazy" /></div>
-            <div class="eco-head">
-              <img src="svg/leaf.svg" width="26" height="26" alt="" />
-              <h3>Biodegradable Packaging</h3>
-            </div>
-            <p class="eco-desc">Match material selection to use and treatment conditions.</p>
-            <button class="link-underline" type="button" data-quote-trigger="Biodegradable Packaging">Discuss materials</button>
-          </div>
-        </div>
-        <p class="eco-note">Paper-based &nbsp;/&nbsp; Recycled-content &nbsp;/&nbsp; Bio-based</p>
-        <p class="eco-disclaimer">Material imagery is illustrative. Suitability, disposal conditions and supporting evidence are confirmed per project.</p>
-      </section>
-
-      <section class="page-section container">
-        <div class="section-head">
-          <h2 class="section-title">Stand-Up Pouches</h2>
-          <button class="link-underline" type="button" data-quote-trigger="Stand-Up Pouches">Ask about samples</button>
-        </div>
-        <div class="grid-4">
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/stand-silver.png" alt="Silver zipper pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Silver zipper pouch</h3>
-                <p class="prod-cap">Resealable opening</p>
-              </figcaption>
-            </figure>
-          </article>
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/stand-black.png" alt="Matte printed pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Matte printed pouch</h3>
-                <p class="prod-cap">Printed matte finish</p>
-              </figcaption>
-            </figure>
-          </article>
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/stand-mango.png" alt="Snack pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Snack pouch</h3>
-                <p class="prod-cap">Printed snack packaging</p>
-              </figcaption>
-            </figure>
-          </article>
-          <article class="prod-card">
-            <figure>
-              <div class="prod-img-wrap"><img src="assets/stand-red.png" alt="Windowed pouch" loading="lazy" /></div>
-              <figcaption>
-                <h3 class="prod-name">Windowed pouch</h3>
-                <p class="prod-cap">Clear product window</p>
-              </figcaption>
-            </figure>
-          </article>
-        </div>
-      </section>
-
-      <section class="page-section container" id="custom">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Packaging in everyday life.</h2>
-            <p class="section-lead">Coffee, food and tea. Designed around what goes inside.</p>
-          </div>
-        </div>
-        <div class="grid-3">
-          <div>
-            <div class="scene-img-wrap"><img src="assets/scene-coffee.png" alt="Coffee packaging in use" loading="lazy" /></div>
-            <p class="scene-label">Coffee</p>
-          </div>
-          <div>
-            <div class="scene-img-wrap"><img src="assets/scene-food-filled.png" alt="Food and bakery packaging" loading="lazy" /></div>
-            <p class="scene-label">Food &amp; Bakery</p>
-          </div>
-          <div>
-            <div class="scene-img-wrap"><img src="assets/scene-tea.png" alt="Tea packaging" loading="lazy" /></div>
-            <p class="scene-label">Tea</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="page-section container" id="factory">
-        <div class="section-head">
-          <h2 class="section-title">Manufacturing &amp; Quality</h2>
-          <button class="link-underline" type="button" data-quote-trigger="Factory Tour & Manufacturing">Inside our factory</button>
-        </div>
-        <div class="factory-stats">
-          <div>
-            <div class="stat-val">2003</div>
-            <div class="stat-lbl">Established</div>
-          </div>
-          <div>
-            <div class="stat-val">8,000 m<sup>2</sup></div>
-            <div class="stat-lbl">Factory premises</div>
-          </div>
-          <div>
-            <div class="stat-val">26</div>
-            <div class="stat-lbl">Inspection stages</div>
-          </div>
-        </div>
-        <div class="factory-photos">
-          <figure>
-            <img src="assets/factory.jpg" alt="Printing workshop" loading="lazy" />
-            <figcaption>Printing workshop / original company photograph</figcaption>
-          </figure>
-          <figure>
-            <img src="assets/equipment.jpg" alt="Production equipment" loading="lazy" />
-            <figcaption>Production equipment / original photograph</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section class="container closing-cta">
-        <div>
-          <h2 class="section-title">Let’s talk packaging.</h2>
-          <p class="section-lead">Share your product, size and quantity. We will help define the next step.</p>
-        </div>
-        <div class="closing-actions">
-          <button class="btn-pill" type="button" data-quote-trigger="General Quote">Get a Quote</button>
-          <button class="link-underline" type="button" data-quote-trigger="Sample Request">Ask about samples</button>
-        </div>
-      </section>
-
-      <footer class="site-footer container">
-        <div class="footer-grid">
-          <div>
-            <div class="brand-lockup" style="margin-bottom: 14px;">
-              <img class="brand-seal" src="assets/seal-logo.png" alt="Dongfang seal" />
-              <span class="brand-wordmark">DONGFANG PACKAGING</span>
-            </div>
-            <p class="footer-col-text">Zhongshan Dongfeng Dongfang<br />Printing &amp; Plastic Factory</p>
-          </div>
-          <div>
-            <h3 class="footer-col-title">Explore</h3>
-            <p class="footer-col-text">
-              <a href="#products">Packaging</a><br />
-              <a href="#sustainability">Sustainability</a><br />
-              <a href="#custom">Custom packaging</a>
-            </p>
-          </div>
-          <div>
-            <h3 class="footer-col-title">Talk to our team</h3>
-            <p class="footer-col-text" style="color: var(--blue);">+86 760 2260 9999</p>
-            <p class="footer-col-text">Ms. Deng &nbsp;+86 180 2833 2868</p>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <span>No. 14 Zhiye Road, Hetai Village, Dongfeng Town, Zhongshan, Guangdong, China</span>
-          <span>www.zsdfys.com</span>
-        </div>
-        <p class="eco-disclaimer" style="color: var(--inverse); margin-top: 14px;">
-          AI product imagery illustrates supplied samples. Printed brands are sample artwork, not endorsements.
-        </p>
-      </footer>
 
     </main>
   </div>
@@ -567,47 +334,47 @@
     </div>
   </div>
 
-  <!-- WordPress Implementation Guide Modal -->
+  <!-- WordPress Implementation Playbook Modal -->
   <div class="quote-backdrop" id="wp-modal" role="dialog" aria-modal="true" aria-labelledby="wp-title">
     <div class="quote-dialog wp-dialog">
       <div class="quote-head">
         <div>
           <p class="wp-eyebrow">WORDPRESS IMPLEMENTATION PLAYBOOK</p>
-          <h3 id="wp-title">WordPress 官网落地实现方法</h3>
+          <h3 id="wp-title">WordPress 官网首屏实现方法</h3>
         </div>
         <button class="quote-close" id="wp-close" type="button" aria-label="Close WordPress guide">✕</button>
       </div>
 
       <div class="wp-active-card" id="wp-active-card">
         <div class="wp-active-head">
-          <strong id="wp-scheme-name">方案 01 · 影院视频循环 + 三幕滚动推镜</strong>
-          <span class="wp-badge" id="wp-scheme-badge">★★★★★ WordPress 首推</span>
+          <strong id="wp-scheme-name">方案 01 · Erewhon 极简轮播首屏</strong>
+          <span class="wp-badge" id="wp-scheme-badge">★★★★★ WordPress 原生即可完成</span>
         </div>
         <p class="wp-desc" id="wp-scheme-howto"></p>
         <div class="wp-meta-grid">
           <div><span>核心组件</span><strong id="wp-scheme-stack">-</strong></div>
-          <div><span>Elementor / WPCode</span><strong id="wp-scheme-wpway">-</strong></div>
+          <div><span>Elementor / 区块方案</span><strong id="wp-scheme-wpway">-</strong></div>
           <div><span>后台换图难度</span><strong id="wp-scheme-edit">-</strong></div>
         </div>
       </div>
 
       <div class="wp-matrix">
-        <p class="wp-matrix-title">五套动态首屏在 WordPress 中的实操对比</p>
+        <p class="wp-matrix-title">五套纯首屏方案在 WordPress 中的实操对比</p>
         <table>
           <thead>
             <tr>
               <th>方案</th>
               <th>核心实现路径</th>
               <th>插件依赖</th>
-              <th>性能 / 维护</th>
+              <th>性能与稳定性</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><button type="button" class="wp-jump" data-wp-scheme="1">01 影院推镜</button></td>
-              <td>MP4 视频背景 + GSAP ScrollTrigger 切幕</td>
-              <td>WPCode 挂 GSAP (2 个 JS)</td>
-              <td>加载快，仅替换后台视频/图</td>
+              <td><button type="button" class="wp-jump" data-wp-scheme="1">01 Erewhon 轮播</button></td>
+              <td>Elementor Carousel / Swiper 横向切换 + 纯 GPU 柔和慢推</td>
+              <td>Elementor 原生或零插件</td>
+              <td>零视频跳帧抖动，后台直观换图</td>
             </tr>
             <tr>
               <td><button type="button" class="wp-jump" data-wp-scheme="2">02 巨字光追</button></td>
@@ -616,10 +383,10 @@
               <td>体积 &lt; 1KB，PageSpeed 最优</td>
             </tr>
             <tr>
-              <td><button type="button" class="wp-jump" data-wp-scheme="3">03 留白视差</button></td>
-              <td>Elementor Scrolling Effects 垂直视差 / 18 行 GSAP</td>
-              <td>Elementor Pro 原生零代码</td>
-              <td>视觉最轻盈，换图最简单</td>
+              <td><button type="button" class="wp-jump" data-wp-scheme="3">03 留白矩阵</button></td>
+              <td>鼠标深度视差 + 极简留白画布</td>
+              <td>Elementor Mouse Effects / 18 行 JS</td>
+              <td>轻盈高级，换图最简单</td>
             </tr>
             <tr>
               <td><button type="button" class="wp-jump" data-wp-scheme="4">04 五联艺廊</button></td>
@@ -628,7 +395,7 @@
               <td>交互新颖，移动端自动精简</td>
             </tr>
             <tr>
-              <td><button type="button" class="wp-jump" data-wp-scheme="5">05 拼版放大</button></td>
+              <td><button type="button" class="wp-jump" data-wp-scheme="5">05 拼版放大镜</button></td>
               <td>CSS Grid 拼版 + <code>clip-path</code> + <code>1.8×</code> 局部放大</td>
               <td>零插件 / Custom HTML 挂件</td>
               <td>细节震撼，适合重产品质检</td>
@@ -645,7 +412,6 @@
   </div>
 
   <script src="vendor/gsap.min.js"></script>
-  <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

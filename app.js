@@ -1,7 +1,6 @@
 (() => {
   'use strict';
 
-  const html = document.documentElement;
   const body = document.body;
   const params = new URLSearchParams(window.location.search);
   const initialScheme = ['1', '2', '3', '4', '5'].includes(params.get('scheme'))
@@ -12,149 +11,28 @@
   if (isEmbed) body.classList.add('is-embed');
 
   let currentScheme = initialScheme;
-  let userReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  html.setAttribute('data-reduced-motion', String(userReducedMotion));
-
-  const isReducedMotion = () => html.getAttribute('data-reduced-motion') === 'true';
-
-  if (window.gsap && window.ScrollTrigger) {
-    window.gsap.registerPlugin(window.ScrollTrigger);
-  }
+  const isReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* =========================================================
-     Floating Scheme Dock & Mode Switcher
+     Floating Scheme Dock & Switcher
      ========================================================= */
   const dockTabs = Array.from(document.querySelectorAll('.dock-tab'));
   const panels = Array.from(document.querySelectorAll('[data-scheme-panel]'));
   const btnReplay = document.getElementById('btn-replay');
-  const btnMotion = document.getElementById('btn-motion');
   const btnMobile = document.getElementById('btn-mobile');
   const mobileFrame = document.getElementById('mobile-frame');
-
-  let schemeCtx = null;
 
   function playEntrance(id) {
     if (!window.gsap || isReducedMotion()) return;
     const panel = panels.find((p) => p.dataset.schemePanel === String(id));
     if (!panel) return;
-    const lines = panel.querySelectorAll('.reveal-line > span, .s5-headline, .s2-monument');
+    const targets = panel.querySelectorAll('.reveal-line > span, .s5-headline, .s2-monument, .s1-slide.is-active .s1-title');
+    if (!targets.length) return;
     window.gsap.fromTo(
-      lines,
-      { y: 28, opacity: 0.15 },
-      { y: 0, opacity: 1, duration: 0.72, stagger: 0.08, ease: 'power3.out', clearProps: 'transform,opacity' }
+      targets,
+      { y: 20, opacity: 0.2 },
+      { y: 0, opacity: 1, duration: 0.65, stagger: 0.07, ease: 'power3.out', clearProps: 'transform,opacity' }
     );
-  }
-
-  function setupScrollChoreography() {
-    if (schemeCtx) {
-      schemeCtx.revert();
-      schemeCtx = null;
-    }
-    if (!window.gsap || !window.ScrollTrigger || isReducedMotion()) return;
-
-    schemeCtx = window.gsap.context(() => {
-      // Scheme 01: 3-Act GSAP ScrollTrigger Cinema Scrub
-      if (currentScheme === '1') {
-        const runway = document.getElementById('s1-runway');
-        const stage = document.getElementById('s1-stage');
-        const l1 = document.getElementById('s1-l1');
-        const l2 = document.getElementById('s1-l2');
-        const l3 = document.getElementById('s1-l3');
-        const c1 = document.getElementById('s1-copy-1');
-        const c2 = document.getElementById('s1-copy-2');
-        const c3 = document.getElementById('s1-copy-3');
-        const bar = document.getElementById('s1-progress-bar');
-        const lbl = document.getElementById('s1-progress-label');
-
-        if (runway && stage) {
-          const desktop = window.innerWidth >= 820;
-          const driver = { p: 0 };
-
-          const applyProgress = (p) => {
-            if (bar) bar.style.transform = `scaleX(${(0.08 + p * 0.92).toFixed(3)})`;
-            if (lbl) {
-              lbl.textContent = p < 0.34 ? '01 / DAYLIGHT SHELF' : p < 0.7 ? '02 / BARRIER LAMINATE' : '03 / PRECISION ZIPPER';
-            }
-            const t2 = Math.max(0, Math.min(1, (p - 0.25) / 0.22));
-            const t3 = Math.max(0, Math.min(1, (p - 0.62) / 0.22));
-
-            if (l1) {
-              l1.style.opacity = String(1 - t2);
-              l1.style.transform = `scale(${(1 + p * 0.14).toFixed(3)})`;
-            }
-            if (l2) {
-              l2.style.opacity = String(t2 * (1 - t3));
-              l2.style.transform = `scale(${(1.12 - t2 * 0.12 + t3 * 0.08).toFixed(3)})`;
-            }
-            if (l3) {
-              l3.style.opacity = String(t3);
-              l3.style.transform = `scale(${(1.08 - t3 * 0.08).toFixed(3)})`;
-            }
-
-            if (c1) {
-              const a1 = Math.max(0, 1 - p / 0.26);
-              c1.style.opacity = String(a1);
-              c1.style.transform = `translate3d(0, ${(-p * 65).toFixed(1)}px, 0)`;
-            }
-            if (c2) {
-              const a2 = t2 * (1 - t3);
-              c2.style.opacity = String(a2);
-              c2.style.transform = `translate3d(0, ${((1 - t2) * 24).toFixed(1)}px, 0)`;
-            }
-            if (c3) {
-              c3.style.opacity = String(t3);
-              c3.style.transform = `translate3d(0, ${((1 - t3) * 24).toFixed(1)}px, 0)`;
-            }
-          };
-
-          applyProgress(0);
-          window.gsap.to(driver, {
-            p: 1,
-            ease: 'none',
-            onUpdate: () => applyProgress(driver.p),
-            scrollTrigger: {
-              trigger: runway,
-              pin: stage,
-              start: 'top top',
-              end: () => `+=${Math.round(window.innerHeight * (desktop ? 1.85 : 0.75))}`,
-              scrub: 0.65,
-              anticipatePin: 1,
-              invalidateOnRefresh: true
-            }
-          });
-        }
-      }
-
-      // Scheme 03: Studio Freight Perimeter Scrub Parallax
-      if (currentScheme === '3') {
-        const gallery = document.getElementById('s3-gallery');
-        const tiles = Array.from(document.querySelectorAll('#s3-scatter .s3-tile'));
-        if (gallery && tiles.length) {
-          window.gsap.fromTo(
-            tiles,
-            { y: 24, opacity: 0.2 },
-            { y: 0, opacity: 1, duration: 0.85, stagger: 0.07, ease: 'power3.out' }
-          );
-          if (window.innerWidth > 820) {
-            tiles.forEach((tile) => {
-              const spd = parseFloat(tile.dataset.speed || '0.12');
-              window.gsap.to(tile, {
-                y: spd * 240,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: gallery,
-                  start: 'top top',
-                  end: 'bottom top',
-                  scrub: true
-                }
-              });
-            });
-          }
-        }
-      }
-    });
-
-    window.ScrollTrigger.refresh();
   }
 
   function setScheme(id, { updateUrl = true } = {}) {
@@ -176,8 +54,6 @@
       window.history.replaceState({}, '', url);
     }
 
-    syncScheme1Video();
-    setupScrollChoreography();
     playEntrance(currentScheme);
 
     if (body.classList.contains('is-mobile-preview') && mobileFrame) {
@@ -186,21 +62,7 @@
   }
 
   dockTabs.forEach((t) => t.addEventListener('click', () => setScheme(t.dataset.scheme)));
-
-  if (btnReplay) {
-    btnReplay.addEventListener('click', () => playEntrance(currentScheme));
-  }
-
-  if (btnMotion) {
-    btnMotion.setAttribute('aria-pressed', String(userReducedMotion));
-    btnMotion.addEventListener('click', () => {
-      userReducedMotion = !userReducedMotion;
-      html.setAttribute('data-reduced-motion', String(userReducedMotion));
-      btnMotion.setAttribute('aria-pressed', String(userReducedMotion));
-      syncScheme1Video();
-      setupScrollChoreography();
-    });
-  }
+  if (btnReplay) btnReplay.addEventListener('click', () => playEntrance(currentScheme));
 
   if (btnMobile) {
     btnMobile.addEventListener('click', () => {
@@ -232,53 +94,51 @@
   }
 
   /* =========================================================
-     Scheme 01 Helpers (Specular Glaze, Magnet, Video Playback)
+     Scheme 01: Erewhon Minimalist Carousel (Zero Jitter)
      ========================================================= */
-  const s1Stage = document.getElementById('s1-stage');
-  const s1Video = document.getElementById('s1-video');
-  const s1Spec = document.getElementById('s1-specular');
-  const s1Magnet = document.querySelector('.s1-magnet');
+  const s1Slides = Array.from(document.querySelectorAll('.s1-slide'));
+  const s1Dots = Array.from(document.querySelectorAll('[data-s1-dot]'));
+  const s1Prev = document.getElementById('s1-prev');
+  const s1Next = document.getElementById('s1-next');
+  let s1Index = 0;
+  let s1Timer = null;
 
-  function syncScheme1Video() {
-    if (!s1Video) return;
-    if (currentScheme === '1' && !isReducedMotion()) {
-      s1Video.play().catch(() => {});
-    } else {
-      s1Video.pause();
-    }
+  function showS1Slide(idx) {
+    if (!s1Slides.length) return;
+    s1Index = ((idx % s1Slides.length) + s1Slides.length) % s1Slides.length;
+    s1Slides.forEach((sl, i) => sl.classList.toggle('is-active', i === s1Index));
+    s1Dots.forEach((dt, i) => dt.classList.toggle('is-active', i === s1Index));
   }
 
-  if (s1Stage && s1Spec) {
-    let raf1 = 0;
-    let mx = 0;
-    let my = 0;
-    s1Stage.addEventListener('pointermove', (e) => {
-      if (isReducedMotion() || e.pointerType !== 'mouse') return;
-      mx = e.clientX;
-      my = e.clientY;
-      if (!raf1) {
-        raf1 = window.requestAnimationFrame(() => {
-          raf1 = 0;
-          const r = s1Stage.getBoundingClientRect();
-          s1Spec.style.setProperty('--mx', `${(mx - r.left).toFixed(0)}px`);
-          s1Spec.style.setProperty('--my', `${(my - r.top).toFixed(0)}px`);
-        });
+  function resetS1Autoplay() {
+    if (s1Timer) window.clearInterval(s1Timer);
+    if (isReducedMotion()) return;
+    s1Timer = window.setInterval(() => {
+      if (currentScheme === '1' && !document.hidden) {
+        showS1Slide(s1Index + 1);
       }
-    }, { passive: true });
+    }, 6200);
   }
 
-  if (s1Magnet) {
-    s1Magnet.addEventListener('mousemove', (e) => {
-      if (isReducedMotion()) return;
-      const r = s1Magnet.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) * 0.14;
-      const dy = (e.clientY - (r.top + r.height / 2)) * 0.18;
-      s1Magnet.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
-    });
-    s1Magnet.addEventListener('mouseleave', () => {
-      s1Magnet.style.transform = '';
+  if (s1Prev) {
+    s1Prev.addEventListener('click', () => {
+      showS1Slide(s1Index - 1);
+      resetS1Autoplay();
     });
   }
+  if (s1Next) {
+    s1Next.addEventListener('click', () => {
+      showS1Slide(s1Index + 1);
+      resetS1Autoplay();
+    });
+  }
+  s1Dots.forEach((d) => {
+    d.addEventListener('click', () => {
+      showS1Slide(Number(d.dataset.s1Dot));
+      resetS1Autoplay();
+    });
+  });
+  resetS1Autoplay();
 
   /* =========================================================
      Scheme 02: Gander Monumental Wordmark + Pointer Gradient
@@ -291,15 +151,15 @@
     let raf2 = 0;
     let sx = 0;
     let sy = 0;
-    const qx = window.gsap ? window.gsap.quickTo(s2Backdrop, 'x', { duration: 0.8, ease: 'power3.out' }) : null;
-    const qy = window.gsap ? window.gsap.quickTo(s2Backdrop, 'y', { duration: 0.8, ease: 'power3.out' }) : null;
+    const qx = window.gsap ? window.gsap.quickTo(s2Backdrop, 'x', { duration: 0.85, ease: 'power3.out' }) : null;
+    const qy = window.gsap ? window.gsap.quickTo(s2Backdrop, 'y', { duration: 0.85, ease: 'power3.out' }) : null;
 
     s2Canvas.addEventListener('pointermove', (e) => {
       if (isReducedMotion() || e.pointerType !== 'mouse') return;
       sx = e.clientX;
       sy = e.clientY;
-      const nx = (e.clientX / window.innerWidth - 0.5) * -18;
-      const ny = (e.clientY / window.innerHeight - 0.5) * -12;
+      const nx = (e.clientX / window.innerWidth - 0.5) * -16;
+      const ny = (e.clientY / window.innerHeight - 0.5) * -10;
       if (qx && qy) {
         qx(nx);
         qy(ny);
@@ -319,6 +179,36 @@
         qx(0);
         qy(0);
       }
+    });
+  }
+
+  /* =========================================================
+     Scheme 03: Studio Freight Silky Pointer Depth Parallax
+     ========================================================= */
+  const s3Gallery = document.getElementById('s3-gallery');
+  const s3Tiles = Array.from(document.querySelectorAll('#s3-scatter .s3-tile'));
+  if (s3Gallery && s3Tiles.length && window.gsap) {
+    const movers = s3Tiles.map((tile) => ({
+      depth: parseFloat(tile.dataset.depth || '14'),
+      qx: window.gsap.quickTo(tile, 'x', { duration: 0.9, ease: 'power3.out' }),
+      qy: window.gsap.quickTo(tile, 'y', { duration: 0.9, ease: 'power3.out' })
+    }));
+
+    s3Gallery.addEventListener('pointermove', (e) => {
+      if (isReducedMotion() || e.pointerType !== 'mouse' || window.innerWidth <= 820) return;
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      movers.forEach(({ depth, qx, qy }) => {
+        qx(nx * depth);
+        qy(ny * depth);
+      });
+    }, { passive: true });
+
+    s3Gallery.addEventListener('pointerleave', () => {
+      movers.forEach(({ qx, qy }) => {
+        qx(0);
+        qy(0);
+      });
     });
   }
 
@@ -497,7 +387,7 @@
   }
 
   /* =========================================================
-     Quote Modal
+     Quote & WordPress Playbook Modals
      ========================================================= */
   const quoteModal = document.getElementById('quote-modal');
   const quoteClose = document.getElementById('quote-close');
@@ -528,17 +418,6 @@
     });
   }
 
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeQuote();
-      if (s5LensActive && s5Lens && s5LensBtn) {
-        s5LensActive = false;
-        s5LensBtn.setAttribute('aria-pressed', 'false');
-        s5Lens.classList.remove('is-visible');
-      }
-    }
-  });
-
   if (quoteForm && quoteFeedback) {
     quoteForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -552,18 +431,11 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(summary).catch(() => {});
       }
-      quoteFeedback.textContent =
-        `Demo mode (static frontend): enquiry brief prepared & copied — "${summary}". Connect backend/email endpoint before production launch.`;
+      quoteFeedback.textContent = `Demo mode: brief copied — "${summary}".`;
       quoteFeedback.classList.add('is-visible');
     });
   }
 
-  // Initialize active scheme cleanly
-  setScheme(initialScheme, { updateUrl: false });
-
-  /* =========================================================
-     WordPress Implementation Playbook Modal & Snippet Copy
-     ========================================================= */
   const wpModal = document.getElementById('wp-modal');
   const btnWp = document.getElementById('btn-wp');
   const wpClose = document.getElementById('wp-close');
@@ -578,117 +450,68 @@
 
   const wpPlaybook = {
     '1': {
-      name: '方案 01 · 影院视频循环 + GSAP 三幕滚动推镜',
-      badge: '★★★★★ WordPress 首推方案',
-      howto: '在 WordPress 首页顶部全宽容器放置 1 段 1.5MB 左右的 MP4 循环短片，并在 WPCode 免费插件中仅对首页引入 gsap.min.js + ScrollTrigger.min.js（约 35 行脚本），即可在用户向下滚动时锁定舞台并依次显影热封层与拉链工艺。',
-      stack: 'HTML5 Video + GSAP ScrollTrigger',
-      wpway: 'Elementor 全宽容器 + WPCode 页脚挂载',
-      edit: '极低（媒体库直接替换 MP4/JPG）',
-      snippet: `<!-- WordPress Custom HTML / Elementor HTML Widget · 方案 01 滚动三幕骨架 -->
-<section class="df-s1-runway" id="df-s1-runway">
-  <div class="df-s1-stage" id="df-s1-stage" style="position:relative;height:100vh;overflow:hidden;">
-    <video autoplay muted loop playsinline poster="REPLACE_HERO_POSTER_URL" style="width:100%;height:100%;object-fit:cover;">
-      <source src="REPLACE_HERO_VIDEO_MP4_URL" type="video/mp4" />
-    </video>
-    <div style="position:absolute;inset:0;background:linear-gradient(12deg,rgba(12,16,22,.64),transparent 72%);"></div>
-    <div style="position:relative;z-index:2;padding:96px 5vw;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;height:100%;">
-      <h1 style="font-size:clamp(42px,5.4vw,76px);margin:0 0 14px;">Your product. Our packaging.</h1>
-      <p>Custom flat-bottom, stand-up pouches &amp; barrier rollstock.</p>
-    </div>
-  </div>
-</section>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  gsap.timeline({ scrollTrigger: { trigger: '#df-s1-runway', start: 'top top', end: '+=160%', pin: '#df-s1-stage', scrub: 0.65 } })
-    .to('#df-s1-stage video', { scale: 1.07, ease: 'none' }, 0);
-}
-</script>`
+      name: '方案 01 · Erewhon 极简轮播首屏（丝滑 GPU 慢推）',
+      badge: '★★★★★ WordPress 原生即可完成',
+      howto: '参考 ship.erewhon.com 的做法：深炭灰顶栏下方使用 3 帧大跨度棚拍轮播，结合纯 CSS transform: translate3d / scale3d 合成层缓慢呼吸推镜（彻底不用容易抽搐抖动的压缩视频），后台媒体库直接更换轮播图即可。',
+      stack: 'Elementor Slides / Swiper + CSS GPU Keyframes',
+      wpway: 'Elementor 轮播容器或 15 行原生 fade 切换',
+      edit: '极易（媒体库直接换 3 张大图）',
+      snippet: `<!-- WordPress Custom HTML / Elementor · 方案 01 Erewhon 极简轮播骨架 -->
+<style>
+@keyframes dfSlowBreathe { 0%{transform:translate3d(0,0,0) scale3d(1.01,1.01,1)} 100%{transform:translate3d(-0.9%,-0.3%,0) scale3d(1.06,1.06,1)} }
+.df-e-stage{position:relative;height:calc(100vh - 68px);overflow:hidden;background:#1c1d1d;}
+.df-e-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;}
+.df-e-slide.is-active{opacity:1;}
+.df-e-slide img{width:100%;height:100%;object-fit:cover;will-change:transform;}
+.df-e-slide.is-active img{animation:dfSlowBreathe 16s ease-in-out infinite alternate;}
+</style>
+<div class="df-e-stage">
+  <div class="df-e-slide is-active"><img src="REPLACE_HERO_1_URL" alt="" /></div>
+  <div class="df-e-slide"><img src="REPLACE_HERO_2_URL" alt="" /></div>
+</div>`
     },
     '2': {
-      name: '方案 02 · Gander Monumental 巨字横幅 + 指针高光追随',
+      name: '方案 02 · Gander Monumental 巨字横幅 + 指针光追',
       badge: '★★★★★ 零插件 · PageSpeed 最快',
-      howto: '几乎零 JS 负担：整幅深色工艺背景图配合 1 行 CSS background-clip: text 做出横跨全屏的镂空光泽字标；通过页脚 12 行原生 pointermove 监听更新 --gx / --gy 变量，鼠标准确经过之处字母产生金属扫光质感。',
+      howto: '整幅深色工艺图配合 CSS background-clip: text 镂空大字，通过 12 行原生 pointermove 脚本实时更新 --gx/--gy 坐标，光斑随鼠标在巨字表面流畅扫过，体积 < 1KB。',
       stack: '纯 CSS 渐变裁剪 + 12 行原生 JS',
-      wpway: 'Gutenberg 封面块 / Elementor 标题 + Custom CSS',
-      edit: '极低（改文字即改巨字）',
+      wpway: 'Gutenberg 封面块 / Elementor Heading',
+      edit: '极易（改文字即改巨字）',
       snippet: `<!-- WordPress Custom HTML · 方案 02 巨字光追核心骨架 -->
-<section id="df-s2" style="position:relative;height:100vh;overflow:hidden;background:#111821;">
-  <img src="REPLACE_DARK_MACRO_POUCH_URL" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.76);" />
-  <h1 id="df-s2-word" style="position:relative;z-index:2;margin:76px 0 0;text-align:center;font-size:clamp(54px,14vw,210px);font-weight:700;letter-spacing:-.048em;background-image:radial-gradient(360px circle at var(--gx,50%) var(--gy,40%),#fff,#cfe3f9 45%,rgba(244,246,249,.88));-webkit-background-clip:text;background-clip:text;color:transparent;">DONGFANG</h1>
+<section id="df-s2" style="position:relative;height:100vh;overflow:hidden;background:#141920;">
+  <img src="REPLACE_DARK_POUCH_URL" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.76);" />
+  <h1 id="df-s2-word" style="position:relative;z-index:2;margin:72px 0 0;text-align:center;font-size:clamp(54px,14vw,210px);font-weight:700;letter-spacing:-.048em;background-image:radial-gradient(360px circle at var(--gx,50%) var(--gy,40%),#fff,#cfe3f9 42%,rgba(244,246,249,.9));-webkit-background-clip:text;background-clip:text;color:transparent;">DONGFANG</h1>
 </section>
 <script>
-document.getElementById('df-s2')?.addEventListener('pointermove', (e) => {
-  const el = document.getElementById('df-s2-word');
-  const r = el.getBoundingClientRect();
-  el.style.setProperty('--gx', (e.clientX - r.left) + 'px');
-  el.style.setProperty('--gy', (e.clientY - r.top) + 'px');
-});
+document.getElementById('df-s2')?.addEventListener('pointermove',(e)=>{const w=document.getElementById('df-s2-word'),r=w.getBoundingClientRect();w.style.setProperty('--gx',(e.clientX-r.left)+'px');w.style.setProperty('--gy',(e.clientY-r.top)+'px');});
 </script>`
     },
     '3': {
-      name: '方案 03 · Studio Freight 极简白画布 + 四周视差画框',
-      badge: '★★★★★ Elementor Pro 可零代码完成',
-      howto: '采用纯白 #FFFFFF 首屏画布突出中央一句话定位与双按钮；四周 6 张包装实拍小窗在 Elementor Pro 中直接选中 Image 控件打开 Motion Effects → Scrolling Effects → Vertical Scroll（分别给正负速度差），无需写代码就能跑出异步视差。',
-      stack: 'Elementor Motion Effects 或 GSAP Scrub',
-      wpway: 'Elementor Pro 原生视差 / 区块模板',
-      edit: '极低（拖图片进画框即换图）',
-      snippet: `<!-- WordPress + GSAP 版 · 方案 03 纯白留白视差骨架（若使用 Elementor Pro 可直接在 Motion Effects 面板设 Vertical Scroll 代替 JS） -->
-<section id="df-s3" style="position:relative;min-height:100vh;background:#fff;display:grid;place-items:center;overflow:hidden;">
-  <div style="text-align:center;max-width:520px;z-index:3;">
-    <h1 style="font-size:clamp(34px,3.8vw,56px);margin:0 0 14px;">Your product. Our packaging.</h1>
-    <p>Flat-bottom, stand-up &amp; recyclable film routes printed in-house.</p>
-  </div>
-  <img data-speed="-0.16" src="REPLACE_TILE_1_URL" alt="" style="position:absolute;top:82px;left:3%;width:220px;height:150px;object-fit:cover;" />
-  <img data-speed="0.18" src="REPLACE_TILE_2_URL" alt="" style="position:absolute;top:76px;right:3%;width:215px;height:160px;object-fit:cover;" />
-</section>`
+      name: '方案 03 · Studio Freight 极简白画布 + 深度视差矩阵',
+      badge: '★★★★★ Elementor Pro 原生零代码',
+      howto: '纯白留白画布正中放置核心声明，四周 6 张实拍小窗在 Elementor Pro 中打开 Motion Effects → Mouse Effects（Mouse Track 设不同正负深度），鼠标移动即可产生柔和的多层景深视差。',
+      stack: 'Elementor Mouse Track 或 GSAP quickTo',
+      wpway: 'Elementor Pro 原生动态面板',
+      edit: '极易（可视化拖图片）',
+      snippet: `<!-- Elementor Pro 可直接用 Mouse Track 原生零代码开启；若用区块代码可在容器内为四周图片挂 data-depth 与 gsap.quickTo -->`
     },
     '4': {
       name: '方案 04 · Codrops 五联错落艺廊（点击切换中心焦点）',
-      badge: '★★★★☆ 零重插件 · 25 行交互代码',
-      howto: '使用 Flexbox 的 flex 与 height CSS 过渡即可做到丝滑的卡片缩放；将本演示的 5 连按钮骨架放入 Elementor HTML 小工具或 Gutenberg 自定义 HTML 块，点击任意产品卡片即自动切换中央焦点图与下方标题描述。',
+      badge: '★★★★☆ 零插件 · 25 行交互代码',
+      howto: '5 张卡片利用 Flexbox flex 比例与 height CSS 过渡做出居中放大切换；放入 Gutenberg Custom HTML 或 Elementor HTML 小工具即可运行，点击任意产品卡片自动展开为焦点大图。',
       stack: 'CSS Flexbox Transition + 25 行 JS',
-      wpway: 'Gutenberg Custom HTML 区块 / WPCode',
-      edit: '中等（HTML 中修改 5 个图片链接与文案）',
-      snippet: `<!-- WordPress Custom HTML · 方案 04 五联点击聚焦核心交互 -->
-<style>
-.df-s4-strip{display:flex;align-items:center;gap:18px;background:#0d1926;padding:64px 4vw;}
-.df-s4-panel{flex:.72;height:196px;border:0;padding:0;overflow:hidden;border-radius:4px;cursor:pointer;opacity:.62;transition:flex .52s cubic-bezier(.16,1,.3,1),height .52s,opacity .32s;}
-.df-s4-panel.is-near{flex:1.08;height:295px;opacity:.88;}
-.df-s4-panel.is-center{flex:1.95;height:440px;opacity:1;}
-.df-s4-panel img{width:100%;height:100%;object-fit:cover;display:block;}
-</style>
-<div class="df-s4-strip">
-  <button class="df-s4-panel" data-idx="0"><img src="REPLACE_IMG_1" alt="" /></button>
-  <button class="df-s4-panel is-near" data-idx="1"><img src="REPLACE_IMG_2" alt="" /></button>
-  <button class="df-s4-panel is-center" data-idx="2"><img src="REPLACE_IMG_3" alt="" /></button>
-  <button class="df-s4-panel is-near" data-idx="3"><img src="REPLACE_IMG_4" alt="" /></button>
-  <button class="df-s4-panel" data-idx="4"><img src="REPLACE_IMG_5" alt="" /></button>
-</div>
-<script>
-const panels=[...document.querySelectorAll('.df-s4-panel')];
-panels.forEach((p)=>p.addEventListener('click',()=>{const a=+p.dataset.idx;panels.forEach((x,i)=>{const d=Math.abs(i-a);x.classList.toggle('is-center',d===0);x.classList.toggle('is-near',d===1);});}));
-</script>`
+      wpway: 'Custom HTML 区块 / WPCode',
+      edit: '中等（HTML 内更换 5 个图片链接）',
+      snippet: `<!-- 方案 04 五联点击聚焦核心交互已整理于 WAREHOUSE/WORDPRESS_IMPLEMENTATION_GUIDE.md -->`
     },
     '5': {
-      name: '方案 05 · Multi-Layout 不对称画报拼版 + 1.8× 工艺放大镜',
-      badge: '★★★★☆ 特色工艺特写首屏',
-      howto: '左大图右双图不对称 CSS Grid 拼版，配合 clip-path 幕布擦除转场与 1.8× 光学放大镜（纯原生 background-position 坐标换算，免装商业相册放大插件）。非常适用于重印刷/封边热封细节验厂展示。',
+      name: '方案 05 · Multi-Layout 不对称拼版 + 1.8× 工艺放大镜',
+      badge: '★★★★☆ 细节特写首屏',
+      howto: '左大图右双叠图 CSS Grid 拼版，配合 clip-path 幕布转场与 1.8× 光学局部放大镜，无重插件依赖。适合突出热封边、印刷网点与拉链细节。',
       stack: 'CSS Grid + clip-path + 原生 1.8× 镜片 JS',
-      wpway: 'Elementor HTML 小工具（单屏模块整块置入）',
-      edit: '中等（HTML 中维护 3 组幻灯图链接）',
-      snippet: `<!-- WordPress Custom HTML · 方案 05 1.8x 局部放大镜核心逻辑 -->
-<div id="df-lens-zone" style="position:relative;overflow:hidden;cursor:crosshair;">
-  <img id="df-lens-src" src="REPLACE_HERO_CLOSEUP_URL" alt="" style="width:100%;display:block;" />
-  <div id="df-lens" style="position:absolute;width:184px;height:184px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);pointer-events:none;opacity:0;transform:translate(-50%,-50%);background-repeat:no-repeat;"></div>
-</div>
-<script>
-const z=document.getElementById('df-lens-zone'),img=document.getElementById('df-lens-src'),l=document.getElementById('df-lens');
-z?.addEventListener('pointermove',(e)=>{if(e.pointerType!=='mouse'||!img.naturalWidth)return;const r=z.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,k=1.8;l.style.left=x+'px';l.style.top=y+'px';l.style.backgroundImage='url("'+img.currentSrc+'")';l.style.backgroundSize=(r.width*k)+'px '+(r.height*k)+'px';l.style.backgroundPosition=(92-x*k)+'px '+(92-y*k)+'px';l.style.opacity='1';});
-z?.addEventListener('pointerleave',()=>{l.style.opacity='0';});
-</script>`
+      wpway: 'Elementor HTML 小工具',
+      edit: '中等（HTML 内维护 3 组图片链接）',
+      snippet: `<!-- 方案 05 1.8x 局部放大镜核心脚本可从仓库 app.js updateS5LensAt() 直接复用 -->`
     }
   };
 
@@ -737,14 +560,22 @@ z?.addEventListener('pointerleave',()=>{l.style.opacity='0';});
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(item.snippet).then(() => {
           if (wpCopyStatus) wpCopyStatus.textContent = '已复制当前方案 WordPress 嵌入骨架到剪贴板';
-        }).catch(() => {
-          if (wpCopyStatus) wpCopyStatus.textContent = '复制受限，请直接查阅仓库内 WORDPRESS_IMPLEMENTATION_GUIDE.md';
-        });
+        }).catch(() => {});
       }
     });
   }
 
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeWpModal();
+    if (e.key === 'Escape') {
+      closeQuote();
+      closeWpModal();
+      if (s5LensActive && s5Lens && s5LensBtn) {
+        s5LensActive = false;
+        s5LensBtn.setAttribute('aria-pressed', 'false');
+        s5Lens.classList.remove('is-visible');
+      }
+    }
   });
+
+  setScheme(initialScheme, { updateUrl: false });
 })();
