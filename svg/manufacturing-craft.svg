@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1328" height="190" viewBox="0 0 1328 190">
+<g fill="none" stroke="#173B63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+ <g transform="translate(12,9)">
+  <path d="M28 40H162 M28 78H162 M28 40Q11 59 28 78 M162 40Q179 59 162 78 M34 40Q18 59 34 78 M0 59H18 M172 59H192"/>
+  <path d="M56 47H141 M56 59H141 M56 71H141" stroke="#7890A4"/>
+ </g>
+ <g transform="translate(238,9)">
+  <circle cx="62" cy="41" r="24"/><circle cx="129" cy="79" r="21"/>
+  <path d="M6 82H37L53 64 M82 27L145 62 M148 69L182 89 M38 19H83 M43 108H150"/>
+  <path d="M13 83H37Q48 80 53 64Q72 61 82 27L145 62Q151 74 148 69L185 89" stroke="#7890A4"/>
+ </g>
+ <g transform="translate(459,9)">
+  <path d="M8 26H77L109 56 M8 91H77L109 65 M132 57H187 M132 65H187" stroke="#7890A4"/>
+  <circle cx="119" cy="39" r="17"/><circle cx="119" cy="83" r="17"/>
+  <path d="M21 15H65 M21 103H65 M144 44H183 M144 78H183"/>
+ </g>
+ <g transform="translate(681,9)">
+  <path d="M24 27H179V92H24Z M62 27V92 M102 27V92 M142 27V92" stroke="#7890A4"/>
+  <path d="M57 11L68 26L57 43 M97 11L108 26L97 43 M137 11L148 26L137 43 M23 101H61 M67 101H101 M107 101H141 M147 101H180"/>
+ </g>
+ <g transform="translate(900,9)">
+  <path d="M57 12H137L144 104H50Z M57 27H137 M57 34H137 M50 88H144 M50 104L66 88 M144 104L128 88"/>
+  <path d="M10 58H42 M30 50L42 58L30 66" stroke="#7890A4"/>
+ </g>
+ <g transform="translate(1124,9)">
+  <path d="M34 17H106L111 101H28Z M34 30H106 M34 39H106 M28 87H96" stroke="#7890A4"/>
+  <circle cx="130" cy="62" r="28"/><path d="M150 83L175 107 M116 61L126 71L144 50"/>
+ </g>
+</g>
+<g font-family="Inter Preview Text" font-size="19" font-weight="500" fill="#1D1D1F" text-anchor="middle">
+ <text x="108" y="160">Plate Making</text><text x="334" y="160">Printing</text>
+ <text x="555" y="160">Lamination</text><text x="777" y="160">Slitting</text>
+ <text x="1000" y="160">Bag Making</text><text x="1220" y="160">Inspection</text>
+</g>
+</svg>
